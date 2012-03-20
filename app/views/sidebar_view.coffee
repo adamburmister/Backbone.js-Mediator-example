@@ -1,9 +1,7 @@
 sidebarTemplate = require './templates/sidebar'
 
 class exports.SidebarView extends Backbone.View
-
-  mediator: null
-  
+    
   events:
     "click a": "linkClicked"
   
@@ -14,6 +12,7 @@ class exports.SidebarView extends Backbone.View
     @$el = $(options.el)
 
   render: =>
+    console.log "SidebarView::render", arguments
     @$el.html sidebarTemplate
     this
 

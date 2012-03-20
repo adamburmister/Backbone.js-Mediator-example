@@ -12,6 +12,7 @@ class exports.MainRouter extends Backbone.Router
 
   start: ->
     console.log 'MainRouter::start (blank route)'
+    null
 
   home: ->
     console.log 'MainRouter::home'
@@ -21,7 +22,7 @@ class exports.MainRouter extends Backbone.Router
     console.log 'MainRouter::subpage'
     App.mediator.trigger "render:page:subpage"
 
-  subpage: ->
+  secondarySubpage: ->
     console.log 'MainRouter::secondarysubpage'
     App.mediator.trigger "render:page:secondarysubpage"
 
