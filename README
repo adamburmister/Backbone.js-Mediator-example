@@ -1,8 +1,0 @@
-This is an example Backbone.js application using the mediator pattern.
-
-There are a number of outstanding issues with it. Do not use this code. This repository exists so I can ask questions on the newsgroup about this codebase.
-
-Usage:
-This application was built using the brunch.io tool.
-To run the application use:
-`%> brunch server --watch`
