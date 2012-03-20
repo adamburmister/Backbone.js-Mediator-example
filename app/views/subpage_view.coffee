@@ -1,15 +1,15 @@
 subpageTemplate = require('./templates/subpage')
 
 class exports.SubpageView extends Backbone.View
+
+  el: '.page-container'
   
   events:
     'click button': 'buttonClicked'
 
-  initializer:(options) ->
-    console.log 'SubpageView::initializer', options
-    @$el = $(options.el)
-    @mediator = options.mediator
-
+  initializer: ->
+    console.log 'SubpageView::initializer', @options
+    @mediator = @options.mediator
     @mediator.on "render:page:subpage", @render
 
   render: =>
@@ -17,6 +17,6 @@ class exports.SubpageView extends Backbone.View
     @$el.html subpageTemplate
     this
 
-  buttonClicked: ->
+  buttonClicked: =>
     alert("You clicked a button in the HomeView's SubpageView. We'll now trigger an event to change to the SecondarySubpage view")
     App.router.navigate "secondarysubpage", { trigger: true }

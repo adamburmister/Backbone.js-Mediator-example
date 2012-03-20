@@ -1,21 +1,25 @@
 sidebarTemplate = require './templates/sidebar'
 
 class exports.SidebarView extends Backbone.View
+
+  el: '.sidebar'
     
   events:
     "click a": "linkClicked"
   
-  initialize:(options) ->
-    console.log 'SidebarView::initializer', options
-    @$el = $(options.el)
-    @mediator = options.mediator
+  initialize: ->
+    console.log 'SidebarView::initializer', @options
+    @mediator = @options.mediator
     
     @mediator.on "render:sidebar", @render
 
   render: =>
-    console.log "SidebarView::render", arguments
-    @$el.html sidebarTemplate
+    console.log "SidebarView::render", @, $(@el), @$el, @el
+    #@$el.html sidebarTemplate
+    $('.sidebar').html sidebarTemplate
     this
 
-  linkClicked: ->
-    alert "You clicked the sidebar link"
+  linkClicked:(e) =>
+    e.preventDefault()
+    @mediator.trigger "render:page:secondarysubpage"
+    alert("You clicked the sidebar link. The page should have changed to the secondary subpage view.")

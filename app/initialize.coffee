@@ -28,7 +28,7 @@ class exports.App extends BrunchApplication
   initViews: ->
     options =
       mediator: @mediator
-
+    
     @views.home = new HomeView  _.defaults(options, { el: $('#app') })
 
   initControllers: ->

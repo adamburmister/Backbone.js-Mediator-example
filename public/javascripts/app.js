@@ -66,14 +66,15 @@
       SecondarysubpageView.__super__.constructor.apply(this, arguments);
     }
 
+    SecondarysubpageView.prototype.el = '.page-container';
+
     SecondarysubpageView.prototype.events = {
       'click button': 'buttonClicked'
     };
 
-    SecondarysubpageView.prototype.initializer = function(options) {
-      console.log('SecondarySubpageView::initializer', options);
-      this.$el = $(options.el);
-      this.mediator = options.mediator;
+    SecondarysubpageView.prototype.initializer = function() {
+      console.log('SecondarySubpageView::initializer', this.options);
+      this.mediator = this.options.mediator;
       return this.mediator.on("render:page:secondarysubpage", this.render);
     };
 
@@ -151,7 +152,6 @@
       Backbone.history.start();
       $('.pageLoading').remove();
       this.navigate("home");
-      console.log("!! NAVIGATOR DIDN'T WORK? !! controllers/application_controller.coffee - That last @navigate should have triggered the nav within MainRouter, but didn't? Why?");
       return null;
     };
 
@@ -197,62 +197,6 @@
     return BaseController;
 
   })();
-
-}).call(this);
-
-  }
-}));
-(this.require.define({
-  "views/home_view": function(exports, require, module) {
-    (function() {
-  var SecondarysubpageView, SidebarView, SubpageView, homeTemplate,
-    __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
-    __hasProp = Object.prototype.hasOwnProperty,
-    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
-
-  homeTemplate = require('./templates/home');
-
-  SidebarView = require('views/sidebar_view').SidebarView;
-
-  SubpageView = require('views/subpage_view').SubpageView;
-
-  SecondarysubpageView = require('views/secondarysubpage_view').SecondarysubpageView;
-
-  exports.HomeView = (function(_super) {
-
-    __extends(HomeView, _super);
-
-    function HomeView() {
-      this.render = __bind(this.render, this);
-      HomeView.__super__.constructor.apply(this, arguments);
-    }
-
-    HomeView.prototype.initialize = function(options) {
-      console.log('HomeView::initializer', options);
-      this.$el = $(options.el);
-      this.mediator = options.mediator;
-      App.views.sidebar = new SidebarView(_.defaults({
-        el: this.$el.find('.sidebar')
-      }, options));
-      App.views.subpage = new SubpageView(_.defaults({
-        el: this.$el.find('.page-container')
-      }, options));
-      App.views.secondarysubpage = new SecondarysubpageView(_.defaults({
-        el: this.$el.find('.page-container')
-      }, options));
-      return this.mediator.on("render:page:home", this.render);
-    };
-
-    HomeView.prototype.render = function(options) {
-      this.$el.html(homeTemplate);
-      this.mediator.trigger("render:sidebar");
-      this.mediator.trigger("render:page:subpage");
-      return this;
-    };
-
-    return HomeView;
-
-  })(Backbone.View);
 
 }).call(this);
 
@@ -307,6 +251,66 @@
     return MainRouter;
 
   })(Backbone.Router);
+
+}).call(this);
+
+  }
+}));
+(this.require.define({
+  "views/home_view": function(exports, require, module) {
+    (function() {
+  var SecondarysubpageView, SidebarView, SubpageView, homeTemplate,
+    __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
+    __hasProp = Object.prototype.hasOwnProperty,
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
+
+  homeTemplate = require('./templates/home');
+
+  SubpageView = require('views/subpage_view').SubpageView;
+
+  SidebarView = require('views/sidebar_view').SidebarView;
+
+  SecondarysubpageView = require('views/secondarysubpage_view').SecondarysubpageView;
+
+  exports.HomeView = (function(_super) {
+
+    __extends(HomeView, _super);
+
+    function HomeView() {
+      this.createSubviewsIfRequired = __bind(this.createSubviewsIfRequired, this);
+      this.render = __bind(this.render, this);
+      HomeView.__super__.constructor.apply(this, arguments);
+    }
+
+    HomeView.prototype.initialize = function() {
+      console.log('HomeView::initializer', this, this.options);
+      this.mediator = this.options.mediator;
+      return this.mediator.on("render:page:home", this.render);
+    };
+
+    HomeView.prototype.render = function(options) {
+      this.$el.html(homeTemplate);
+      this.createSubviewsIfRequired();
+      this.mediator.trigger("render:sidebar");
+      this.mediator.trigger("render:page:secondarysubpage");
+      return this;
+    };
+
+    HomeView.prototype.createSubviewsIfRequired = function() {
+      var opts;
+      opts = {
+        mediator: this.mediator
+      };
+      if (!App.views.sidebar) App.views.sidebar = new SidebarView(opts);
+      if (!App.views.subpage) App.views.subpage = new SubpageView(opts);
+      if (!App.views.secondarysubpage) {
+        return App.views.secondarysubpage = new SecondarysubpageView(opts);
+      }
+    };
+
+    return HomeView;
+
+  })(Backbone.View);
 
 }).call(this);
 
@@ -388,29 +392,33 @@
     __extends(SidebarView, _super);
 
     function SidebarView() {
+      this.linkClicked = __bind(this.linkClicked, this);
       this.render = __bind(this.render, this);
       SidebarView.__super__.constructor.apply(this, arguments);
     }
+
+    SidebarView.prototype.el = '.sidebar';
 
     SidebarView.prototype.events = {
       "click a": "linkClicked"
     };
 
-    SidebarView.prototype.initialize = function(options) {
-      console.log('SidebarView::initializer', options);
-      this.$el = $(options.el);
-      this.mediator = options.mediator;
+    SidebarView.prototype.initialize = function() {
+      console.log('SidebarView::initializer', this.options);
+      this.mediator = this.options.mediator;
       return this.mediator.on("render:sidebar", this.render);
     };
 
     SidebarView.prototype.render = function() {
-      console.log("SidebarView::render", arguments);
-      this.$el.html(sidebarTemplate);
+      console.log("SidebarView::render", this, $(this.el), this.$el, this.el);
+      $('.sidebar').html(sidebarTemplate);
       return this;
     };
 
-    SidebarView.prototype.linkClicked = function() {
-      return alert("You clicked the sidebar link");
+    SidebarView.prototype.linkClicked = function(e) {
+      e.preventDefault();
+      this.mediator.trigger("render:page:secondarysubpage");
+      return alert("You clicked the sidebar link. The page should have changed to the secondary subpage view.");
     };
 
     return SidebarView;
@@ -436,18 +444,20 @@
     __extends(SubpageView, _super);
 
     function SubpageView() {
+      this.buttonClicked = __bind(this.buttonClicked, this);
       this.render = __bind(this.render, this);
       SubpageView.__super__.constructor.apply(this, arguments);
     }
+
+    SubpageView.prototype.el = '.page-container';
 
     SubpageView.prototype.events = {
       'click button': 'buttonClicked'
     };
 
-    SubpageView.prototype.initializer = function(options) {
-      console.log('SubpageView::initializer', options);
-      this.$el = $(options.el);
-      this.mediator = options.mediator;
+    SubpageView.prototype.initializer = function() {
+      console.log('SubpageView::initializer', this.options);
+      this.mediator = this.options.mediator;
       return this.mediator.on("render:page:subpage", this.render);
     };
 
@@ -479,7 +489,7 @@
   var foundHelper, self=this;
 
 
-  return "<div class=\"home\">\n  <div class=\"sidebar\">\n    Sidebar will load here  \n  </div>\n\n  <div class=\"page-container container-fluid\">\n    SubPage will load here\n  </div>\n</div>";});
+  return "<div class=\"home\">\n  <div class=\"sidebar\">\n    (Sidebar will load here)\n  </div>\n\n  <div class=\"page-container\">\n    (SubPage will load here)\n  </div>\n</div>";});
   }
 }));
 (this.require.define({

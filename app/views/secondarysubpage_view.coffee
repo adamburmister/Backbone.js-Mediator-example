@@ -1,14 +1,15 @@
 secondarysubpageTemplate = require('./templates/secondarysubpage')
 
 class exports.SecondarysubpageView extends Backbone.View
+
+  el: '.page-container'
   
   events:
     'click button': 'buttonClicked'
 
-  initializer:(options) ->
-    console.log 'SecondarySubpageView::initializer', options
-    @$el = $(options.el)
-    @mediator = options.mediator
+  initializer: ->
+    console.log 'SecondarySubpageView::initializer', @options
+    @mediator = @options.mediator
 
     @mediator.on "render:page:secondarysubpage", @render
 

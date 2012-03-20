@@ -1,25 +1,25 @@
 homeTemplate = require './templates/home'
-{SidebarView} = require 'views/sidebar_view'
 {SubpageView} = require 'views/subpage_view'    
+{SidebarView} = require 'views/sidebar_view'
 {SecondarysubpageView} = require 'views/secondarysubpage_view'
 
 class exports.HomeView extends Backbone.View
   
-  initialize:(options) ->
-    console.log 'HomeView::initializer', options
-    @$el = $(options.el)
-    @mediator = options.mediator
-
-    # QUESTION: How do I initialize these views? Is this the right place?
-    # Should I be passing in $('') selectors at this stage, since this template has not been rendered yet
-    App.views.sidebar = new SidebarView _.defaults({ el: @$el.find('.sidebar') }, options)
-    App.views.subpage = new SubpageView _.defaults({ el: @$el.find('.page-container') }, options)
-    App.views.secondarysubpage = new SecondarysubpageView _.defaults({ el: @$el.find('.page-container') }, options)
-    
+  initialize: ->
+    console.log 'HomeView::initializer', @, @options
+    @mediator = @options.mediator
     @mediator.on "render:page:home", @render
 
   render:(options) =>
     @$el.html homeTemplate
+    @createSubviewsIfRequired()
     @mediator.trigger "render:sidebar"
-    @mediator.trigger "render:page:subpage"
+    @mediator.trigger "render:page:secondarysubpage"
     return this
+
+  createSubviewsIfRequired: =>
+    opts = { mediator: @mediator }
+    App.views.sidebar = new SidebarView(opts) unless App.views.sidebar
+    App.views.subpage = new SubpageView(opts) unless App.views.subpage
+    App.views.secondarysubpage = new SecondarysubpageView(opts) unless App.views.secondarysubpage
+
