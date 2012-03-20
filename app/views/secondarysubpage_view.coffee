@@ -6,10 +6,9 @@ class exports.SecondarysubpageView extends Backbone.View
     'click button': 'buttonClicked'
 
   initializer:(options) ->
-    console.log 'SecondarySubpage::initializer', options
+    console.log 'SecondarySubpageView::initializer', options
     @$el = $(options.el)
     @mediator = options.mediator
-    @router = options.router
 
     @mediator.on "render:page:secondarysubpage", @render
 

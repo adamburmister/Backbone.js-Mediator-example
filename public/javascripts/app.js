@@ -48,45 +48,49 @@
     };
   }
 }).call(this);(this.require.define({
-  "views/sidebar_view": function(exports, require, module) {
+  "views/secondarysubpage_view": function(exports, require, module) {
     (function() {
-  var sidebarTemplate,
+  var secondarysubpageTemplate,
     __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
     __hasProp = Object.prototype.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
 
-  sidebarTemplate = require('./templates/sidebar');
+  secondarysubpageTemplate = require('./templates/secondarysubpage');
 
-  exports.SidebarView = (function(_super) {
+  exports.SecondarysubpageView = (function(_super) {
 
-    __extends(SidebarView, _super);
+    __extends(SecondarysubpageView, _super);
 
-    function SidebarView() {
+    function SecondarysubpageView() {
       this.render = __bind(this.render, this);
-      SidebarView.__super__.constructor.apply(this, arguments);
+      SecondarysubpageView.__super__.constructor.apply(this, arguments);
     }
 
-    SidebarView.prototype.events = {
-      "click a": "linkClicked"
+    SecondarysubpageView.prototype.events = {
+      'click button': 'buttonClicked'
     };
 
-    SidebarView.prototype.initialize = function(options) {
+    SecondarysubpageView.prototype.initializer = function(options) {
+      console.log('SecondarySubpageView::initializer', options);
+      this.$el = $(options.el);
       this.mediator = options.mediator;
-      this.mediator.on("render:sidebar", this.render);
-      return this.$el = $(options.el);
+      return this.mediator.on("render:page:secondarysubpage", this.render);
     };
 
-    SidebarView.prototype.render = function() {
-      console.log("SidebarView::render", arguments);
-      this.$el.html(sidebarTemplate);
+    SecondarysubpageView.prototype.render = function() {
+      console.log("SecondarySubpageView::render", arguments);
+      this.$el.html(secondarysubpageTemplate);
       return this;
     };
 
-    SidebarView.prototype.linkClicked = function() {
-      return alert("You clicked the sidebar link");
+    SecondarysubpageView.prototype.buttonClicked = function() {
+      alert("Good work");
+      return App.router.navigate("subpage", {
+        trigger: true
+      });
     };
 
-    return SidebarView;
+    return SecondarysubpageView;
 
   })(Backbone.View);
 
@@ -118,42 +122,6 @@
     return BrunchApplication;
 
   })();
-
-}).call(this);
-
-  }
-}));
-(this.require.define({
-  "controllers/application_controller": function(exports, require, module) {
-    (function() {
-  var BaseController,
-    __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
-    __hasProp = Object.prototype.hasOwnProperty,
-    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
-
-  BaseController = require('./base_controller').BaseController;
-
-  exports.ApplicationController = (function(_super) {
-
-    __extends(ApplicationController, _super);
-
-    function ApplicationController(app) {
-      this.appReady = __bind(this.appReady, this);      ApplicationController.__super__.constructor.call(this, app);
-      this.mediator.on("application:ready", this.appReady);
-    }
-
-    ApplicationController.prototype.appReady = function() {
-      console.log("ApplicationController::appReady");
-      Backbone.history.start();
-      $('.pageLoading').remove();
-      this.navigate("home");
-      console.log("!! NAVIGATOR DIDN'T WORK? !! controllers/application_controller.coffee - That last @navigate should have triggered the nav within MainRouter, but didn't? Why?");
-      return null;
-    };
-
-    return ApplicationController;
-
-  })(BaseController);
 
 }).call(this);
 
@@ -193,6 +161,42 @@
     return BaseController;
 
   })();
+
+}).call(this);
+
+  }
+}));
+(this.require.define({
+  "controllers/application_controller": function(exports, require, module) {
+    (function() {
+  var BaseController,
+    __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
+    __hasProp = Object.prototype.hasOwnProperty,
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
+
+  BaseController = require('./base_controller').BaseController;
+
+  exports.ApplicationController = (function(_super) {
+
+    __extends(ApplicationController, _super);
+
+    function ApplicationController(app) {
+      this.appReady = __bind(this.appReady, this);      ApplicationController.__super__.constructor.call(this, app);
+      this.mediator.on("application:ready", this.appReady);
+    }
+
+    ApplicationController.prototype.appReady = function() {
+      console.log("ApplicationController::appReady");
+      Backbone.history.start();
+      $('.pageLoading').remove();
+      this.navigate("home");
+      console.log("!! NAVIGATOR DIDN'T WORK? !! controllers/application_controller.coffee - That last @navigate should have triggered the nav within MainRouter, but didn't? Why?");
+      return null;
+    };
+
+    return ApplicationController;
+
+  })(BaseController);
 
 }).call(this);
 
@@ -281,8 +285,9 @@
     }
 
     HomeView.prototype.initialize = function(options) {
-      this.mediator = options.mediator;
+      console.log('HomeView::initializer', options);
       this.$el = $(options.el);
+      this.mediator = options.mediator;
       App.views.sidebar = new SidebarView(_.defaults({
         el: this.$el.find('.sidebar')
       }, options));
@@ -372,6 +377,54 @@
   }
 }));
 (this.require.define({
+  "views/sidebar_view": function(exports, require, module) {
+    (function() {
+  var sidebarTemplate,
+    __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
+    __hasProp = Object.prototype.hasOwnProperty,
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
+
+  sidebarTemplate = require('./templates/sidebar');
+
+  exports.SidebarView = (function(_super) {
+
+    __extends(SidebarView, _super);
+
+    function SidebarView() {
+      this.render = __bind(this.render, this);
+      SidebarView.__super__.constructor.apply(this, arguments);
+    }
+
+    SidebarView.prototype.events = {
+      "click a": "linkClicked"
+    };
+
+    SidebarView.prototype.initialize = function(options) {
+      console.log('SidebarView::initializer', options);
+      this.$el = $(options.el);
+      this.mediator = options.mediator;
+      return this.mediator.on("render:sidebar", this.render);
+    };
+
+    SidebarView.prototype.render = function() {
+      console.log("SidebarView::render", arguments);
+      this.$el.html(sidebarTemplate);
+      return this;
+    };
+
+    SidebarView.prototype.linkClicked = function() {
+      return alert("You clicked the sidebar link");
+    };
+
+    return SidebarView;
+
+  })(Backbone.View);
+
+}).call(this);
+
+  }
+}));
+(this.require.define({
   "views/subpage_view": function(exports, require, module) {
     (function() {
   var subpageTemplate,
@@ -398,7 +451,6 @@
       console.log('SubpageView::initializer', options);
       this.$el = $(options.el);
       this.mediator = options.mediator;
-      this.router = options.router;
       return this.mediator.on("render:page:subpage", this.render);
     };
 
@@ -430,7 +482,17 @@
   var foundHelper, self=this;
 
 
-  return "<div class=\"sidebar\">\n  Sidebar will load here  \n</div>\n\n<div class=\"page-container container-fluid\">\n  SubPage will load here\n</div>\n";});
+  return "<div class=\"home\">\n  <div class=\"sidebar\">\n    Sidebar will load here  \n  </div>\n\n  <div class=\"page-container container-fluid\">\n    SubPage will load here\n  </div>\n</div>";});
+  }
+}));
+(this.require.define({
+  "views/templates/secondarysubpage": function(exports, require, module) {
+    module.exports = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+  helpers = helpers || Handlebars.helpers;
+  var foundHelper, self=this;
+
+
+  return "<div class=\"secondarysubpage\">\n  <h1>SecondarysubpageView : templates/secondarysubpage.handlebars</h1>\n  <button>Back to subpage</button>\n</div>";});
   }
 }));
 (this.require.define({
@@ -450,68 +512,6 @@
   var foundHelper, self=this;
 
 
-  return "<section class=\"subpage\">\n  <h1>SubpageView : templates/subpage.handlebars</h1>\n  <button>Click me to transition to the secondary subpage</button>\n</section>";});
-  }
-}));
-(this.require.define({
-  "views/templates/secondarysubpage": function(exports, require, module) {
-    module.exports = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
-  helpers = helpers || Handlebars.helpers;
-  var foundHelper, self=this;
-
-
-  return "<section class=\"secondarysubpage\">\n  <h1>SecondarysubpageView : templates/secondarysubpage.handlebars</h1>\n  <button>Back to subpage</button>\n</section>";});
-  }
-}));
-(this.require.define({
-  "views/secondarysubpage_view": function(exports, require, module) {
-    (function() {
-  var secondarysubpageTemplate,
-    __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
-    __hasProp = Object.prototype.hasOwnProperty,
-    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
-
-  secondarysubpageTemplate = require('./templates/secondarysubpage');
-
-  exports.SecondarysubpageView = (function(_super) {
-
-    __extends(SecondarysubpageView, _super);
-
-    function SecondarysubpageView() {
-      this.render = __bind(this.render, this);
-      SecondarysubpageView.__super__.constructor.apply(this, arguments);
-    }
-
-    SecondarysubpageView.prototype.events = {
-      'click button': 'buttonClicked'
-    };
-
-    SecondarysubpageView.prototype.initializer = function(options) {
-      console.log('SecondarySubpage::initializer', options);
-      this.$el = $(options.el);
-      this.mediator = options.mediator;
-      this.router = options.router;
-      return this.mediator.on("render:page:secondarysubpage", this.render);
-    };
-
-    SecondarysubpageView.prototype.render = function() {
-      console.log("SecondarySubpageView::render", arguments);
-      this.$el.html(secondarysubpageTemplate);
-      return this;
-    };
-
-    SecondarysubpageView.prototype.buttonClicked = function() {
-      alert("Good work");
-      return App.router.navigate("subpage", {
-        trigger: true
-      });
-    };
-
-    return SecondarysubpageView;
-
-  })(Backbone.View);
-
-}).call(this);
-
+  return "<div class=\"subpage\">\n  <h1>SubpageView : templates/subpage.handlebars</h1>\n  <button>Click me to transition to the secondary subpage</button>\n</div>";});
   }
 }));

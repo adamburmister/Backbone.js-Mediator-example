@@ -6,10 +6,11 @@ class exports.SidebarView extends Backbone.View
     "click a": "linkClicked"
   
   initialize:(options) ->
-    @mediator = options.mediator
-    @mediator.on "render:sidebar", @render
-
+    console.log 'SidebarView::initializer', options
     @$el = $(options.el)
+    @mediator = options.mediator
+    
+    @mediator.on "render:sidebar", @render
 
   render: =>
     console.log "SidebarView::render", arguments

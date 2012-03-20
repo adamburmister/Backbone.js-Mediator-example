@@ -9,7 +9,6 @@ class exports.SubpageView extends Backbone.View
     console.log 'SubpageView::initializer', options
     @$el = $(options.el)
     @mediator = options.mediator
-    @router = options.router
 
     @mediator.on "render:page:subpage", @render
 

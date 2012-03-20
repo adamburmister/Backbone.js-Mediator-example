@@ -6,8 +6,9 @@ homeTemplate = require './templates/home'
 class exports.HomeView extends Backbone.View
   
   initialize:(options) ->
-    @mediator = options.mediator
+    console.log 'HomeView::initializer', options
     @$el = $(options.el)
+    @mediator = options.mediator
 
     # QUESTION: How do I initialize these views? Is this the right place?
     # Should I be passing in $('') selectors at this stage, since this template has not been rendered yet

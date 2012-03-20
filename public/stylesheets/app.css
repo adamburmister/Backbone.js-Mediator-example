@@ -200,3 +200,7 @@ input:invalid, textarea:invalid { background-color: #f0dddd; }
 
 table { border-collapse: collapse; border-spacing: 0; }
 td { vertical-align: top; }
+.home{background:#eee}
+.subpage{background:#fee}
+.secondarysubpage{background:#eef}
+.sidebar{background:#ccc;width:200px;float:left}
