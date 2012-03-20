@@ -4,12 +4,13 @@
 
 class exports.MainRouter extends Backbone.Router
   
-  routes:
+  routes:{
     ''                : 'start'
   , 'home'            : 'home'
   , 'subpage'         : 'subpage'
   , 'secondarysubpage': 'secondarySubpage'
-
+  }
+  
   start: ->
     console.log 'MainRouter::start (blank route)'
     null
