@@ -1,6 +1,6 @@
 {
   "author": "Adam Burmister",
-  "name": "Backbone.js Mediator example",
+  "name": "BackboneMediatorExample",
   "description": "An example of using the mediator pattern within Backbone",
   "version": "0.0.1",
   "homepage": "",
