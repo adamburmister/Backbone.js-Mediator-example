@@ -1,0 +1,36 @@
+{
+  "author": "Adam Burmister",
+  "name": "Backbone.js Mediator example",
+  "description": "An example of using the mediator pattern within Backbone",
+  "version": "0.0.1",
+  "homepage": "",
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "engines": {
+    "node": "~0.6.10"
+  },
+  "scripts": {
+    "start": "brunch watch --server"
+  },
+  "dependencies": {
+    "javascript-brunch": "1.0.x",
+    "coffee-script-brunch": "1.0.x",
+
+    "css-brunch": "1.0.x",
+    "stylus-brunch": "1.0.x",
+
+    "handlebars-brunch": "1.0.x",
+    
+    "uglify-js-brunch": "1.0.x",
+    "clean-css-brunch": "1.0.x",
+
+    "express": "2.5.6",
+    "handlebars":""
+  },
+  "devDependencies": {
+    "mocha": "0.14.0",
+    "expect.js": "0.1.2"
+  }
+}
