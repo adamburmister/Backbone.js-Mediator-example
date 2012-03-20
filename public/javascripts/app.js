@@ -128,6 +128,42 @@
   }
 }));
 (this.require.define({
+  "controllers/application_controller": function(exports, require, module) {
+    (function() {
+  var BaseController,
+    __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
+    __hasProp = Object.prototype.hasOwnProperty,
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
+
+  BaseController = require('./base_controller').BaseController;
+
+  exports.ApplicationController = (function(_super) {
+
+    __extends(ApplicationController, _super);
+
+    function ApplicationController(app) {
+      this.appReady = __bind(this.appReady, this);      ApplicationController.__super__.constructor.call(this, app);
+      this.mediator.on("application:ready", this.appReady);
+    }
+
+    ApplicationController.prototype.appReady = function() {
+      console.log("ApplicationController::appReady");
+      Backbone.history.start();
+      $('.pageLoading').remove();
+      this.navigate("home");
+      console.log("!! NAVIGATOR DIDN'T WORK? !! controllers/application_controller.coffee - That last @navigate should have triggered the nav within MainRouter, but didn't? Why?");
+      return null;
+    };
+
+    return ApplicationController;
+
+  })(BaseController);
+
+}).call(this);
+
+  }
+}));
+(this.require.define({
   "controllers/base_controller": function(exports, require, module) {
     (function() {
 
@@ -161,42 +197,6 @@
     return BaseController;
 
   })();
-
-}).call(this);
-
-  }
-}));
-(this.require.define({
-  "controllers/application_controller": function(exports, require, module) {
-    (function() {
-  var BaseController,
-    __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
-    __hasProp = Object.prototype.hasOwnProperty,
-    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
-
-  BaseController = require('./base_controller').BaseController;
-
-  exports.ApplicationController = (function(_super) {
-
-    __extends(ApplicationController, _super);
-
-    function ApplicationController(app) {
-      this.appReady = __bind(this.appReady, this);      ApplicationController.__super__.constructor.call(this, app);
-      this.mediator.on("application:ready", this.appReady);
-    }
-
-    ApplicationController.prototype.appReady = function() {
-      console.log("ApplicationController::appReady");
-      Backbone.history.start();
-      $('.pageLoading').remove();
-      this.navigate("home");
-      console.log("!! NAVIGATOR DIDN'T WORK? !! controllers/application_controller.coffee - That last @navigate should have triggered the nav within MainRouter, but didn't? Why?");
-      return null;
-    };
-
-    return ApplicationController;
-
-  })(BaseController);
 
 }).call(this);
 
@@ -476,16 +476,6 @@
   }
 }));
 (this.require.define({
-  "views/templates/home": function(exports, require, module) {
-    module.exports = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
-  helpers = helpers || Handlebars.helpers;
-  var foundHelper, self=this;
-
-
-  return "<div class=\"home\">\n  <div class=\"sidebar\">\n    Sidebar will load here  \n  </div>\n\n  <div class=\"page-container container-fluid\">\n    SubPage will load here\n  </div>\n</div>";});
-  }
-}));
-(this.require.define({
   "views/templates/secondarysubpage": function(exports, require, module) {
     module.exports = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
   helpers = helpers || Handlebars.helpers;
@@ -493,6 +483,16 @@
 
 
   return "<div class=\"secondarysubpage\">\n  <h1>SecondarysubpageView : templates/secondarysubpage.handlebars</h1>\n  <button>Back to subpage</button>\n</div>";});
+  }
+}));
+(this.require.define({
+  "views/templates/home": function(exports, require, module) {
+    module.exports = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+  helpers = helpers || Handlebars.helpers;
+  var foundHelper, self=this;
+
+
+  return "<div class=\"home\">\n  <div class=\"sidebar\">\n    Sidebar will load here  \n  </div>\n\n  <div class=\"page-container container-fluid\">\n    SubPage will load here\n  </div>\n</div>";});
   }
 }));
 (this.require.define({
