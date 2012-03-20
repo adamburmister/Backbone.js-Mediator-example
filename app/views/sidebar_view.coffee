@@ -14,9 +14,8 @@ class exports.SidebarView extends Backbone.View
     @mediator.on "render:sidebar", @render
 
   render: =>
-    console.log "SidebarView::render", @, $(@el), @$el, @el
-    #@$el.html sidebarTemplate
-    $('.sidebar').html sidebarTemplate
+    console.log "SidebarView::render", @
+    @$el.html sidebarTemplate
     this
 
   linkClicked:(e) =>

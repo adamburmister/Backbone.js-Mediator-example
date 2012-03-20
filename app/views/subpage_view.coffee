@@ -7,8 +7,8 @@ class exports.SubpageView extends Backbone.View
   events:
     'click button': 'buttonClicked'
 
-  initializer: ->
-    console.log 'SubpageView::initializer', @options
+  initialize: ->
+    console.log 'SubpageView::initialize', @options
     @mediator = @options.mediator
     @mediator.on "render:page:subpage", @render
 
@@ -18,5 +18,4 @@ class exports.SubpageView extends Backbone.View
     this
 
   buttonClicked: =>
-    alert("You clicked a button in the HomeView's SubpageView. We'll now trigger an event to change to the SecondarySubpage view")
     App.router.navigate "secondarysubpage", { trigger: true }

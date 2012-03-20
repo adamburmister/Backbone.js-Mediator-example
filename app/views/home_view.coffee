@@ -14,7 +14,7 @@ class exports.HomeView extends Backbone.View
     @$el.html homeTemplate
     @createSubviewsIfRequired()
     @mediator.trigger "render:sidebar"
-    @mediator.trigger "render:page:secondarysubpage"
+    @mediator.trigger "render:page:subpage"
     return this
 
   createSubviewsIfRequired: =>

@@ -72,8 +72,8 @@
       'click button': 'buttonClicked'
     };
 
-    SecondarysubpageView.prototype.initializer = function() {
-      console.log('SecondarySubpageView::initializer', this.options);
+    SecondarysubpageView.prototype.initialize = function() {
+      console.log('SecondarySubpageView::initialize', this.options);
       this.mediator = this.options.mediator;
       return this.mediator.on("render:page:secondarysubpage", this.render);
     };
@@ -85,7 +85,6 @@
     };
 
     SecondarysubpageView.prototype.buttonClicked = function() {
-      alert("Good work");
       return App.router.navigate("subpage", {
         trigger: true
       });
@@ -292,7 +291,7 @@
       this.$el.html(homeTemplate);
       this.createSubviewsIfRequired();
       this.mediator.trigger("render:sidebar");
-      this.mediator.trigger("render:page:secondarysubpage");
+      this.mediator.trigger("render:page:subpage");
       return this;
     };
 
@@ -410,8 +409,8 @@
     };
 
     SidebarView.prototype.render = function() {
-      console.log("SidebarView::render", this, $(this.el), this.$el, this.el);
-      $('.sidebar').html(sidebarTemplate);
+      console.log("SidebarView::render", this);
+      this.$el.html(sidebarTemplate);
       return this;
     };
 
@@ -455,8 +454,8 @@
       'click button': 'buttonClicked'
     };
 
-    SubpageView.prototype.initializer = function() {
-      console.log('SubpageView::initializer', this.options);
+    SubpageView.prototype.initialize = function() {
+      console.log('SubpageView::initialize', this.options);
       this.mediator = this.options.mediator;
       return this.mediator.on("render:page:subpage", this.render);
     };
@@ -468,7 +467,6 @@
     };
 
     SubpageView.prototype.buttonClicked = function() {
-      alert("You clicked a button in the HomeView's SubpageView. We'll now trigger an event to change to the SecondarySubpage view");
       return App.router.navigate("secondarysubpage", {
         trigger: true
       });
@@ -493,16 +491,6 @@
   }
 }));
 (this.require.define({
-  "views/templates/secondarysubpage": function(exports, require, module) {
-    module.exports = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
-  helpers = helpers || Handlebars.helpers;
-  var foundHelper, self=this;
-
-
-  return "<div class=\"secondarysubpage\">\n  <h1>SecondarysubpageView : templates/secondarysubpage.handlebars</h1>\n  <button>Back to subpage</button>\n</div>";});
-  }
-}));
-(this.require.define({
   "views/templates/sidebar": function(exports, require, module) {
     module.exports = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
   helpers = helpers || Handlebars.helpers;
@@ -510,6 +498,16 @@
 
 
   return "<h2>Sidebar</h2>\n<ul>\n  <li>\n    <a href=\"#myroute\">Go to myroute</a>\n  </li>\n</ul>";});
+  }
+}));
+(this.require.define({
+  "views/templates/secondarysubpage": function(exports, require, module) {
+    module.exports = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+  helpers = helpers || Handlebars.helpers;
+  var foundHelper, self=this;
+
+
+  return "<div class=\"secondarysubpage\">\n  <h1>SecondarysubpageView : templates/secondarysubpage.handlebars</h1>\n  <button>Back to subpage</button>\n</div>";});
   }
 }));
 (this.require.define({
