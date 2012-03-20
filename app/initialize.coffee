@@ -9,6 +9,7 @@
 class exports.App extends BrunchApplication
   
   initialize: ->
+    console.log "App::initialize mediator"
     @mediator = _.extend({}, Backbone.Events)
     @mediator._trigger = @mediator.trigger
     @mediator.trigger = (event, args) ->
@@ -22,14 +23,13 @@ class exports.App extends BrunchApplication
 
     # Let there be life!!
     @mediator.trigger "application:ready"
-
     this
 
   initViews: ->
-    options =
+    opts =
       mediator: @mediator
-    
-    @views.home = new HomeView  _.defaults(options, { el: $('#app') })
+    console.log "initViews", opts
+    @views.home = new HomeView(_.defaults(opts, { el: $('#app') }))
 
   initControllers: ->
     @controllers.application = new ApplicationController this

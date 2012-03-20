@@ -14,17 +14,9 @@ To run the application use:
 Questions:
 ----------
 
-General:
-
-* Is this event driven approach agreed to be a good or a bad approach for Backbone applications?
-
 Views:
 
 * Should all subviews be initialized upfront, or lazily?
 * How should you pass around DOM references for view `el`?
 * Should you pass `el`, `$el`, or a selector?
 * Should the DOM `$el` be cached within the view initializer, or once without the view `render` if it doesn't yet exist, or should you `$(selector)` it in render each time?
-
-Router:
-
-* Why isn't calling `navigate "frag", { trigger:true }` working as expected? It changes the URL but doesn't execute the route method.
